@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Parliament Distrbution Chart</title>	
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="stylesheet.css">
+	</head>
+	<body>
+		<div id="title">Parliament Diagram Generator</div>
+		<div class="container" id="outerSettingsContainer">
+			<div class="container" id="settingsContainer">
+				<div class="inputHeader">Position:</div>
+				<div class="autocomplete">
+					<input type="text" id="parliament" class="input">
+				</div>
+				<div class="inputHeader">Term:</div>
+				<div class="autocomplete">
+					<input type="text" id="term" class="input">
+				</div>
+				<div class="inputHeader" id="dateHeader">Date (as yyyy-mm-dd):</div>
+				<input type="text" id="date" class="input">
+				<button class="button" onClick="update()">Generate!</button>
+			</div>
+			<div class="container" id="descriptionContainer">This tool queries wikidata for details of memberships of parliaments. <br/> 
+			Items for the members of parliament need to contain position held (<a href="https://www.wikidata.org/wiki/Property:P39">P39</a>) statements with all of the following qualifiers in order for the tool to work:
+			<ul>
+			<li>start time (<a href="https://www.wikidata.org/wiki/Property:P580">P580</a>)</li>
+			<li>end dates (<a href="https://www.wikidata.org/wiki/Property:P582">P582</a>)</li>
+			<li>parliamentary term (<a href="https://www.wikidata.org/wiki/Property:P2937">P2937</a>)</li>
+			<li>parliamentary group (<a href="https://www.wikidata.org/wiki/Property:P4100">P4100</a>)</li>
+			</ul>
+			In addition, for colours to appear on the chart, the item for the parliamentary group must have an sRGB color hex triplet (<a href="https://www.wikidata.org/wiki/Property:P465">P465</a>) statement.  Items without this statement will appear in black.  
+			</div>
+		</div>
+		<div class="container">
+			<div class="container" id="svgOuterContainer">
+				<div class="container" id="svgContainer"></div>
+				<div class="container" id="legend"></div>
+			</div>
+			<div class="container" id="codeContainer">
+				<div id="svgCodeHeader">Copy and paste the following code into your text editor and save the file as a .svg file.</div>
+				<div id="svgCode"></div>
+			</div>
+		</div>
+		<script type="text/javascript" src="script.js"></script>
+	</body>
+</html>
