@@ -1,0 +1,125 @@
+:root {
+	--highlight-background: #1E90FF;
+	--highlight-text: #FFFFFF;
+	--lowlight-background: #EFEFEF;
+	--border-color: #D4D4D4;
+}
+
+body {
+	font-family: ubuntu;
+	padding: 0px;
+	margin: 0px;
+}
+
+.container {
+	padding: 10px;
+}
+
+#outerSettingsContainer {
+	padding:20px;
+	background-color: #1E90FF80;
+	overflow: hidden;
+}
+
+#svgOuterContainer {
+	width: 50%;
+	float: left;
+}
+
+.button {
+	background-color: var(--highlight-background);
+	color: var(--highlight-text);
+	padding: 10px;
+	border: none;
+	margin:10px;
+	border-radius:5px;
+}
+
+#title {
+	font-size:150%;
+	padding:20px;
+	text-align: center;
+	background-color: var(--highlight-background);
+	color: var(--highlight-text);
+}
+
+.inputHeader {
+	font-size: 120%;
+	padding: 10px;
+}
+
+.input {
+	width:300px;
+	border: none;
+	padding: 10px;
+}
+
+#dateSpan {
+	font-size: 80%
+}
+
+#settingsContainer {
+	padding: 10px;
+	float: left;
+}
+
+#descriptionContainer {
+	
+}
+
+#svgCode {
+	height: 300px;
+	overflow-y: auto;
+	font-family: ubuntu mono;
+	font-size: 80%;
+	padding: 10px;
+	margin: 10px;
+	border: 1px black solid;
+	word-wrap: break-word;
+}
+
+.legendBubble {
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	margin-right: 10px;
+	border-radius: 5px;
+}
+
+.autocomplete {
+  position: relative;
+  display: block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: var(--highlight-text);
+  border-bottom: 1px solid var(--border-color);
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color:var(--lowlight-background);
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: var(--highlight-background)  !important;
+  color: var(--highlight-text);
+}
+
+.autocomplete-label {
+	font-size: 100%;
+	font-weight: bold;
+}
+
