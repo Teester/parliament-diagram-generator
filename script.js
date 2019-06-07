@@ -200,7 +200,7 @@ function generate() {
 	var points = generatePoints(resultsList, radius)
 	
 	if (!points[0]) {
-		document.getElementById("svgContainer").innerHTML = "The parameters proiduced no results.  Please check the parameters and data and try again"
+		document.getElementById("svgContainer").innerHTML = "The parameters produced no results.  Please check the parameters and data and try again"
 	} else {
 		var a = points[0][2]/0.4
 	var elements = points.map(pointToSVG)
@@ -405,7 +405,9 @@ function autocomplete(inp) {
 										var date = new Date();
 										var month = "" + (date.getMonth() +1);
 										if (month < 10) {month = "0" + month;}
-										dissolution = "+" + date.getFullYear() + "-" + month + "-" + date.getDate() + "00:00:00Z";
+										var day = "" + date.getDate();
+										if (day < 10) {day = "0" + day;}
+										dissolution = "+" + date.getFullYear() + "-" + month + "-" + day + "00:00:00Z";
 									}
 									var dateHeader = document.getElementById("date");
 									startDateIfNotGiven = inception.substring(1, 11);
