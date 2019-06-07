@@ -395,7 +395,9 @@ function autocomplete(inp) {
 										var date = new Date();
 										var month = "" + (date.getMonth() +1);
 										if (month < 10) {month = "0" + month;}
-										inception = "+" + date.getFullYear() + "-" + month + "-" + date.getDate() + "00:00:00Z";
+										var day = "" + date.getDate();
+										if (day < 10) {day = "0" + day;}
+										inception = "+" + date.getFullYear() + "-" + month + "-" + day + "00:00:00Z";
 									}
 									if (data.claims.P576) { 
 										dissolution = data.claims.P576[0].mainsnak.datavalue.value.time; 
