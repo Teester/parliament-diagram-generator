@@ -11,8 +11,8 @@ function buildWikidataQuery(parliament, term, time, language) {
 		SELECT ?partyLabel ?rgb ?party (COUNT(*) as ?count)
 		WHERE
 		{
-			?item wdt:P39 wd:${parliament} .
 			?item p:P39 ?membership . 
+			?membership ps:P39 wd:${parliament} .
 			?membership pq:P2937 wd:${term} .
 			?membership pq:P4100 ?party .
 			optional{?party wdt:P465 ?rgbvalue . }
@@ -236,7 +236,6 @@ function generateLegend() {
 	var legend = document.getElementById("legend");
 	for (result in resultsList) {
 		legend.innerHTML += "<span class='legendBubble' style='background-color:#" + resultsList[result].rgb.value + "'></span>"
-		console.log(resultsList)
 		legend.innerHTML += "<span class='legendLabel'><a href=" + resultsList[result].party.value + ">" + resultsList[result].partyLabel.value + "</a> - " +resultsList[result].count.value + "</span><br/>"	}
 }
 
@@ -322,7 +321,6 @@ function update() {
 	document.getElementById("svgContainer").innerHTML = "";
 	document.getElementById("legend").innerHTML = "";
 	
-	console.log(timeParameter);
 	if (timeParameter == "") {
 		timeParameter = startDateIfNotGiven;
 		document.getElementById("date").value = startDateIfNotGiven;
