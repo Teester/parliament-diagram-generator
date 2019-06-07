@@ -31,7 +31,7 @@ body {
 	color: var(--highlight-text);
 	padding: 10px;
 	border: none;
-	margin:10px;
+	margin:0px;
 	border-radius:5px;
 }
 
