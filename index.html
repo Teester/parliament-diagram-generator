@@ -12,16 +12,16 @@
 			<div class="container" id="settingsContainer">
 				<div class="inputHeader">Position:</div>
 				<div class="autocomplete">
-					<input type="text" id="parliament" class="input">
+					<input type="text" id="parliament" class="input" required>
 				</div>
 				<div class="inputHeader">Term:</div>
 				<div class="autocomplete">
-					<input type="text" id="term" class="input">
+					<input type="text" id="term" class="input" required>
 				</div>
-				<div class="inputHeader" id="dateHeader">Date (as yyyy-mm-dd):</div>
-				<input type="text" id="date" class="input">
+				<div class="inputHeader" id="dateHeader">Date:</div>
+				<input type="date" id="date" class="input" required>
 				<div class="inputHeader" id="languageHeader">Language:</div>
-				<input type="text" id="language" class="input">
+				<input type="text" id="language" class="input" required>
 				<button class="button" onClick="update()">Generate!</button>
 			</div>
 			<div class="container" id="descriptionContainer">This tool queries wikidata for details of memberships of parliaments. <br/> 
