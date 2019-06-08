@@ -21,7 +21,7 @@ function buildWikidataQuery(parliament, term, time, language) {
 			OPTIONAL { ?membership pq:P582 ?endDate. }
 			BIND(IF(BOUND(?startDate), ?startDate, now()) AS ?start)
 			BIND(IF(BOUND(?endDate), ?endDate, now()) AS ?end)
-			FILTER ( ?end >= "${time}T00:00:00+00:00"^^xsd:dateTime ) 
+			FILTER ( ?end > "${time}T00:00:00+00:00"^^xsd:dateTime ) 
 			FILTER ( ?start <= "${time}T00:00:00+00:00"^^xsd:dateTime )
 			SERVICE wikibase:label { bd:serviceParam wikibase:language "${language}" }
 		}
