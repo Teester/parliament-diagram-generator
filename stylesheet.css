@@ -26,6 +26,11 @@ body {
 	float: left;
 }
 
+.hint { 
+	font-size: 66%;
+	color: #666666;
+	}
+
 .button {
 	background-color: var(--highlight-background);
 	color: var(--highlight-text);
