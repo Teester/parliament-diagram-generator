@@ -117,12 +117,10 @@ function generatePoints(parliament, r0) {
 
 	// calculate seat count
 	var totalSeats = getTotal();
-	
 	// calculate number of rings
 	var numberOfRings = findN(totalSeats, r0)
 	// calculate seat distance
 	var a0 = findA(totalSeats, numberOfRings, r0)
-
 	// calculate ring radii
 	var rings = []
 	for(var i = 1; i <= numberOfRings; i++){
@@ -197,39 +195,43 @@ function generate() {
 	
 	var seatCount = getTotal();
 	var radius = 20
-	var points = generatePoints(resultsList, radius)
-	
-	if (!points[0]) {
+	if (resultsList.length > 1) { 
+		var points = generatePoints(resultsList, radius);
+		if (points[0]) {
+			var a = points[0][2]/0.4
+
+			var elements = points.map(pointToSVG)
+			// Create the svg element
+			var svg = createSvgNode("svg");
+			svg.setAttribute("viewBox", [-radius-a/2, -radius-a/2, 2*radius+a, radius+a].join(','));
+			
+			// Add each circle to the svg	
+			for (var element in elements) {
+				svg.append(elements[element]);
+			}
+			
+			// Create the text for the total number of seats and add it to the svg
+			var text = createText();
+			svg.append(text);
+
+			// Add the svg to the body
+			var div = document.getElementById("svgContainer"); 
+			div.append(svg);
+			
+			var content = document.getElementById("svgContainer").innerHTML;
+			var preamble = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+			var safePreamble = preamble.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+			var safe = content.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+			document.getElementById("svgCode").innerHTML = safePreamble +"" + safe;
+			document.getElementById("codeContainer").style.visibility = "visible";
+
+			generateLegend();
+		} else {
+			document.getElementById("svgContainer").innerHTML = "The parameters produced no results.  Please check the parameters and data and try again"
+		}
+	} else { 
 		document.getElementById("svgContainer").innerHTML = "The parameters produced no results.  Please check the parameters and data and try again"
-	} else {
-		var a = points[0][2]/0.4
-	var elements = points.map(pointToSVG)
-	// Create the svg element
-	var svg = createSvgNode("svg");
-	svg.setAttribute("viewBox", [-radius-a/2, -radius-a/2, 2*radius+a, radius+a].join(','));
-	
-	// Add each circle to the svg	
-	for (var element in elements) {
-		svg.append(elements[element]);
-	}
-	
-	// Create the text for the total number of seats and add it to the svg
-	var text = createText();
-	svg.append(text);
-
-	// Add the svg to the body
-	var div = document.getElementById("svgContainer"); 
-	div.append(svg);
-	
-	var content = document.getElementById("svgContainer").innerHTML;
-	var preamble = '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
-	var safePreamble = preamble.replace(/</g,"&lt;").replace(/>/g,"&gt;");
-	var safe = content.replace(/</g,"&lt;").replace(/>/g,"&gt;");
-	document.getElementById("svgCode").innerHTML = safePreamble +"" + safe;
-	document.getElementById("codeContainer").style.visibility = "visible";
-
-	generateLegend();
-}
+	} 
 }
 
 function generateLegend() {
@@ -305,7 +307,10 @@ function setUp(parliament, term) {
 	autocomplete(document.getElementById("parliament"));
 	autocomplete(document.getElementById("term"));
 	document.getElementById("codeContainer").style.visibility = "hidden";
-
+	
+	var language = document.getElementById("language");
+	var userLang = (navigator.language || navigator.userLanguage).substring(0, 2); 
+	language.value = userLang;
 } 
 
 /**
@@ -395,7 +400,7 @@ function autocomplete(inp) {
 										if (month < 10) {month = "0" + month;}
 										var day = "" + date.getDate();
 										if (day < 10) {day = "0" + day;}
-										inception = "+" + date.getFullYear() + "-" + month + "-" + day + "00:00:00Z";
+										inception = "+" + date.getFullYear() + "-" + month + "-" + day + "T00:00:00Z";
 									}
 									if (data.claims.P576) { 
 										dissolution = data.claims.P576[0].mainsnak.datavalue.value.time; 
@@ -407,11 +412,21 @@ function autocomplete(inp) {
 										if (month < 10) {month = "0" + month;}
 										var day = "" + date.getDate();
 										if (day < 10) {day = "0" + day;}
-										dissolution = "+" + date.getFullYear() + "-" + month + "-" + day + "00:00:00Z";
+										dissolution = "+" + date.getFullYear() + "-" + month + "-" + day + "T00:00:00Z";
 									}
-									var dateHeader = document.getElementById("date");
-									startDateIfNotGiven = inception.substring(1, 11);
-									dateHeader.placeholder = "Date must be between " + inception.substring(1, 11) + " and " + dissolution.substring(1, 11);
+									var term = document.getElementById("term");
+									if (term.value) {
+										var dateHeader = document.getElementById("dateHeader");
+										var dateInput = document.getElementById("date");
+										
+										startDateIfNotGiven = inception.substring(1, 11);
+										
+										var inceptionDate = new Date(inception.substring(1));
+										var dissolutionDate = new Date(dissolution.substring(1));
+										
+										dateHeader.innerHTML = 'Date:  <span class="hint">(Date must be between ' + inceptionDate.toLocaleDateString() + ' and ' + dissolutionDate.toLocaleDateString() + ')<\span>';
+										dateInput.value = dissolution.substring(1, 11)
+									}
 
 								}
 							});
