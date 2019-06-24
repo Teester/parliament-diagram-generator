@@ -277,7 +277,7 @@ var resultsList = [];
 /**
  * Sets up the page and autocomplete
  **/
-function setUp(parliament, term) {
+function setUp() {
 	var parliamentInput = document.getElementById("parliament");
 	var termInput = document.getElementById("term");
 	var dateInput = document.getElementById("date");
@@ -327,7 +327,7 @@ function autocomplete(inp) {
 	the text field element and an array of possible autocompleted values:*/
 	var currentFocus;
 	/*execute a function when someone writes in the text field:*/
-	inp.addEventListener("input", function(e) {
+	inp.addEventListener("input", function() {
 		var a, b, i, val = this.value;
 		/*close any already open lists of autocompleted values*/
 		closeAllLists();
@@ -361,7 +361,7 @@ function autocomplete(inp) {
 						b.innerHTML += "<input type='hidden' value='" + arr[i].label + " (" + arr[i].id + ")'>";
 						b.innerHTML += "<input type='hidden' value='" + arr[i].id + "'>";
 						/*execute a function when someone clicks on the item value (DIV element):*/
-						b.addEventListener("click", function(e) {
+						b.addEventListener("click", function() {
 							/*insert the value for the autocomplete text field:*/
 							inp.value = this.getElementsByTagName("input")[0].value;
 							inp.setAttribute("wikidata", this.getElementsByTagName("input")[1].value);
