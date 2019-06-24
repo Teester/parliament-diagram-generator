@@ -68,10 +68,6 @@ body {
 	float: left;
 }
 
-#descriptionContainer {
-	
-}
-
 #svgCode {
 	height: 300px;
 	overflow-y: auto;
@@ -127,4 +123,3 @@ body {
 	font-size: 100%;
 	font-weight: bold;
 }
-

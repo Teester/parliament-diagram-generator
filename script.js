@@ -83,7 +83,6 @@ function merge(arrays) {
 
 function findN(m, r) {
 	var n = Math.floor(Math.log(m)/Math.log(2)) || 1;
-	var a = findA(m, n, r);
 	var distance = getScore(m, n, r);
 
 	var direction = 0;
@@ -152,7 +151,6 @@ function generatePoints(parliament, r0) {
 	}
 
 	// fill seats
-	var initial = true
 	var ringProgress = Array(points.length).fill(0)
 	for(var party in resultsList){
 		for(var i=0; i<parseInt(resultsList[party].count.value); i++){
@@ -192,8 +190,7 @@ function createText() {
 function generate() {
 	document.getElementById("svgContainer").innerHTML = "";	
 	document.getElementById("legend").innerHTML = "";
-	
-	var seatCount = getTotal();
+
 	var radius = 20
 	if (resultsList.length > 1) { 
 		var points = generatePoints(resultsList, radius);
@@ -276,21 +273,6 @@ function distribute(votes, seats) {
 
 var points = [];
 var resultsList = [];
-
-/**
- * Gets the label for an entity from Wikidata
- **/
-function getLabel(id, node) {
-	var url = "https://www.wikidata.org/w/api.php?action=wbgetentities&origin=*&format=json&props=labels&languages=en&ids=" + id;
-	$.ajax({ 
-		type: "GET",
-		dataType: "json",
-		url: url,
-		success: function(data){
-			 document.getElementById(node).innerHTML = data.entities[id].labels.en.value;
-		} 
-	});
-}
 
 /**
  * Sets up the page and autocomplete
