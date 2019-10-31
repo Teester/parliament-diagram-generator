@@ -83,6 +83,7 @@ function merge(arrays) {
 
 function findN(m, r) {
 	var n = Math.floor(Math.log(m)/Math.log(2)) || 1;
+	var a = findA(m, n, r);
 	var distance = getScore(m, n, r);
 
 	var direction = 0;
@@ -98,13 +99,13 @@ function findN(m, r) {
 
 function nextRing (rings, ringProgress) {
 	var progressQuota, tQuota;
-	for(var index in rings){
-		tQuota = parseFloat((ringProgress[index] || 0)/rings[index].length).toFixed(10);
+	for(var i in rings){
+		tQuota = parseFloat((ringProgress[i] || 0)/rings[i].length).toFixed(10);
 		if(!progressQuota || tQuota<progressQuota) progressQuota = tQuota
 	}
-	for(var index in rings){
-		tQuota = parseFloat((ringProgress[index] || 0)/rings[index].length).toFixed(10);
-		if(tQuota==progressQuota) return index
+	for(var j in rings){
+		tQuota = parseFloat((ringProgress[j] || 0)/rings[j].length).toFixed(10);
+		if(tQuota==progressQuota) return j
 	}
 }
 
@@ -134,16 +135,16 @@ function generatePoints(parliament, r0) {
 	// build seats
 	// loop rings
 	var ring
-	for(var i = 1; i <= numberOfRings; i++){
+	for(var j = 1; j <= numberOfRings; j++){
 		ring = []
 		// calculate ring-specific radius
-		r = r0 - (i-1)*a0
+		r = r0 - (j-1)*a0
 		// calculate ring-specific distance
-		a = (Math.PI*r) / ((rings[i]-1) || 1)
+		a = (Math.PI*r) / ((rings[j]-1) || 1)
 
 		// loop points
-		for(let j=0; j<=rings[i]-1; j++){
-			point = getCoordinates(r, j*a)
+		for(let k=0; k<=rings[j]-1; k++){
+			point = getCoordinates(r, k*a)
 			point[2] = 0.4*a0
 			ring.push(point)
 		}
@@ -151,6 +152,7 @@ function generatePoints(parliament, r0) {
 	}
 
 	// fill seats
+	var initial = true
 	var ringProgress = Array(points.length).fill(0)
 	for(var party in resultsList){
 		for(var i=0; i<parseInt(resultsList[party].count.value); i++){
@@ -190,7 +192,8 @@ function createText() {
 function generate() {
 	document.getElementById("svgContainer").innerHTML = "";	
 	document.getElementById("legend").innerHTML = "";
-
+	
+	var seatCount = getTotal();
 	var radius = 20
 	if (resultsList.length > 1) { 
 		var points = generatePoints(resultsList, radius);
@@ -275,9 +278,24 @@ var points = [];
 var resultsList = [];
 
 /**
+ * Gets the label for an entity from Wikidata
+ **/
+function getLabel(id, node) {
+	var url = "https://www.wikidata.org/w/api.php?action=wbgetentities&origin=*&format=json&props=labels&languages=en&ids=" + id;
+	$.ajax({ 
+		type: "GET",
+		dataType: "json",
+		url: url,
+		success: function(data){
+			 document.getElementById(node).innerHTML = data.entities[id].labels.en.value;
+		} 
+	});
+}
+
+/**
  * Sets up the page and autocomplete
  **/
-function setUp() {
+function setUp(parliament, term) {
 	var parliamentInput = document.getElementById("parliament");
 	var termInput = document.getElementById("term");
 	var dateInput = document.getElementById("date");
@@ -327,7 +345,7 @@ function autocomplete(inp) {
 	the text field element and an array of possible autocompleted values:*/
 	var currentFocus;
 	/*execute a function when someone writes in the text field:*/
-	inp.addEventListener("input", function() {
+	inp.addEventListener("input", function(e) {
 		var a, b, i, val = this.value;
 		/*close any already open lists of autocompleted values*/
 		closeAllLists();
@@ -361,7 +379,7 @@ function autocomplete(inp) {
 						b.innerHTML += "<input type='hidden' value='" + arr[i].label + " (" + arr[i].id + ")'>";
 						b.innerHTML += "<input type='hidden' value='" + arr[i].id + "'>";
 						/*execute a function when someone clicks on the item value (DIV element):*/
-						b.addEventListener("click", function() {
+						b.addEventListener("click", function(e) {
 							/*insert the value for the autocomplete text field:*/
 							inp.value = this.getElementsByTagName("input")[0].value;
 							inp.setAttribute("wikidata", this.getElementsByTagName("input")[1].value);
