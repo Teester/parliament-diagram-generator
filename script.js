@@ -361,22 +361,22 @@ function autocomplete(inp) {
 				dataType: "json",
 				url: "https://www.wikidata.org/w/api.php?action=wbsearchentities&search="+val+"&language=en&origin=*&format=json",
 				success: function(data){
-					arr = data.search;
+					var arr = data.search;
 					/*for each item in the array...*/
-					for (var i = 0; i < arr.length; i++) {
+					for (var j = 0; j < arr.length; j++) {
 						/*check if the item starts with the same letters as the text field value:*/
 						/*create a DIV element for each matching element:*/
 						b = document.createElement("DIV");
 						/*make the matching letters bold:*/
-						b.innerHTML = "<span class='autocomplete-label'>" + arr[i].label + "</span>";
-						if (arr[i].description) {
-							b.innerHTML += "<br/><span class='description'>" + arr[i].description + "</span>";
+						b.innerHTML = "<span class='autocomplete-label'>" + arr[j].label + "</span>";
+						if (arr[j].description) {
+							b.innerHTML += "<br/><span class='description'>" + arr[j].description + "</span>";
 						}
 						/*insert a input field that will hold the current array item's value:*/
-						b.innerHTML += "<input type='hidden' value='" + arr[i].label + " (" + arr[i].id + ")'>";
-						b.innerHTML += "<input type='hidden' value='" + arr[i].id + "'>";
+						b.innerHTML += "<input type='hidden' value='" + arr[j].label + " (" + arr[j].id + ")'>";
+						b.innerHTML += "<input type='hidden' value='" + arr[j].id + "'>";
 						/*execute a function when someone clicks on the item value (DIV element):*/
-						b.addEventListener("click", function(e) {
+						b.addEventListener("click", function(f) {
 							/*insert the value for the autocomplete text field:*/
 							inp.value = this.getElementsByTagName("input")[0].value;
 							inp.setAttribute("wikidata", this.getElementsByTagName("input")[1].value);
@@ -392,24 +392,24 @@ function autocomplete(inp) {
 									} else if (data.claims.P580){
 										inception = data.claims.P580[0].mainsnak.datavalue.value.time; 
 									} else {
-										var date = new Date();
-										var month = "" + (date.getMonth() +1);
-										if (month < 10) {month = "0" + month;}
-										var day = "" + date.getDate();
-										if (day < 10) {day = "0" + day;}
-										inception = "+" + date.getFullYear() + "-" + month + "-" + day + "T00:00:00Z";
+										var inceptionDate = new Date();
+										var inceptionMonth = "" + (inceptionDate.getMonth() +1);
+										if (inceptionMonth < 10) {inceptionMonth = "0" + inceptionMonth;}
+										var inceptionDay = "" + inceptionDate.getDate();
+										if (inceptionDay < 10) {inceptionDay = "0" + inceptionDay;}
+										inception = "+" + inceptionDate.getFullYear() + "-" + inceptionMonth + "-" + inceptionDay + "T00:00:00Z";
 									}
 									if (data.claims.P576) { 
 										dissolution = data.claims.P576[0].mainsnak.datavalue.value.time; 
 									} else if (data.claims.P582){
 										dissolution = data.claims.P582[0].mainsnak.datavalue.value.time; 
 									} else {
-										var date = new Date();
-										var month = "" + (date.getMonth() +1);
-										if (month < 10) {month = "0" + month;}
-										var day = "" + date.getDate();
-										if (day < 10) {day = "0" + day;}
-										dissolution = "+" + date.getFullYear() + "-" + month + "-" + day + "T00:00:00Z";
+										var dissolutionDate = new Date();
+										var dissolutionMonth = "" + (dissolutionDate.getMonth() +1);
+										if (dissolutionMonth < 10) {dissolutionMonth = "0" + dissolutionMonth;}
+										var dissolutionDay = "" + dissolutionDate.getDate();
+										if (dissolutionDay < 10) {dissolutionDay = "0" + dissolutionDay;}
+										dissolution = "+" + dissolutionDate.getFullYear() + "-" + dissolutionMonth + "-" + dissolutionDay + "T00:00:00Z";
 									}
 									var term = document.getElementById("term");
 									if (term.value) {
@@ -418,10 +418,10 @@ function autocomplete(inp) {
 										
 										startDateIfNotGiven = inception.substring(1, 11);
 										
-										var inceptionDate = new Date(inception.substring(1));
-										var dissolutionDate = new Date(dissolution.substring(1));
+										var inceptionDateDate = new Date(inception.substring(1));
+										var dissolutionDateDate = new Date(dissolution.substring(1));
 										
-										dateHeader.innerHTML = 'Date:  <span class="hint">(Date must be between ' + inceptionDate.toLocaleDateString() + ' and ' + dissolutionDate.toLocaleDateString() + ')<\span>';
+										dateHeader.innerHTML = 'Date:  <span class="hint">(Date must be between ' + inceptionDateDate.toLocaleDateString() + ' and ' + dissolutionDateDate.toLocaleDateString() + ')<\span>';
 										dateInput.value = dissolution.substring(1, 11)
 									}
 
