@@ -193,11 +193,11 @@ function generate() {
 	
 	var radius = 20
 	if (resultsList.length > 1) { 
-		var points = generatePoints(resultsList, radius);
-		if (points[0]) {
-			var a = points[0][2]/0.4
+		var points2 = generatePoints(resultsList, radius);
+		if (points2[0]) {
+			var a = points2[0][2]/0.4
 
-			var elements = points.map(pointToSVG)
+			var elements = points2.map(pointToSVG)
 			// Create the svg element
 			var svg = createSvgNode("svg");
 			svg.setAttribute("viewBox", [-radius-a/2, -radius-a/2, 2*radius+a, radius+a].join(','));
@@ -233,7 +233,7 @@ function generate() {
 
 function generateLegend() {
 	var legend = document.getElementById("legend");
-	for (result in resultsList) {
+	for (var result in resultsList) {
 		legend.innerHTML += "<span class='legendBubble' style='background-color:#" + resultsList[result].rgb.value + "'></span>"
 		legend.innerHTML += "<span class='legendLabel'><a href=" + resultsList[result].party.value + ">" + resultsList[result].partyLabel.value + "</a> - " +resultsList[result].count.value + "</span><br/>"	}
 }
@@ -363,7 +363,7 @@ function autocomplete(inp) {
 				success: function(data){
 					arr = data.search;
 					/*for each item in the array...*/
-					for (i = 0; i < arr.length; i++) {
+					for (var i = 0; i < arr.length; i++) {
 						/*check if the item starts with the same letters as the text field value:*/
 						/*create a DIV element for each matching element:*/
 						b = document.createElement("DIV");
