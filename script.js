@@ -155,7 +155,7 @@ function generatePoints(parliament, r0) {
 	var initial = true
 	var ringProgress = Array(points.length).fill(0)
 	for(var party in resultsList){
-		for(var i=0; i<parseInt(resultsList[party].count.value); i++){
+		for(var l=0; l<parseInt(resultsList[party].count.value); l++){
 			ring = nextRing(points, ringProgress)
 			points[ring][ringProgress[ring]][3] = resultsList[party].rgb.value
 			points[ring][ringProgress[ring]][4] = resultsList[party].partyLabel.value
